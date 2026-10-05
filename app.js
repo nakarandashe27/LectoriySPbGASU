@@ -108,7 +108,7 @@ deck.addEventListener('pointermove',e=>{
 deck.addEventListener('pointerout',e=>{const c=e.target.closest('.tilt');if(c&&!c.contains(e.relatedTarget))c.style.transform='';});
 // Промокод: копирование по клику и обратный отсчёт до конца акции
 deck.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(!b)return;navigator.clipboard?.writeText(b.dataset.copy).then(()=>{b.querySelector('em').textContent='Скопировано ✓';setTimeout(()=>b.querySelector('em').textContent='Скопировать',1800);}).catch(()=>{});Field.pulseAt(e.clientX,e.clientY,7);});
-function tickDeadlines(){document.querySelectorAll('[data-deadline]').forEach(el=>{const left=new Date(el.dataset.deadline)-Date.now();if(left<=0){el.textContent='Акция завершилась в полночь 5 октября';return;}const h=Math.floor(left/36e5),m=Math.floor(left/6e4)%60,sec=Math.floor(left/1e3)%60,pad=n=>String(n).padStart(2,'0');el.innerHTML=`До конца акции: <b>${pad(h)}:${pad(m)}:${pad(sec)}</b>`;});}
+function tickDeadlines(){document.querySelectorAll('[data-deadline]').forEach(el=>{const left=new Date(el.dataset.deadline)-Date.now();if(left<=0){el.textContent='Акция завершилась 6 октября в 16:00';return;}const h=Math.floor(left/36e5),m=Math.floor(left/6e4)%60,sec=Math.floor(left/1e3)%60,pad=n=>String(n).padStart(2,'0');el.innerHTML=`До конца акции: <b>${pad(h)}:${pad(m)}:${pad(sec)}</b>`;});}
 tickDeadlines();setInterval(tickDeadlines,1000);
 const parseHash=()=>{const m=location.hash.match(/^#slide-(\d+)$/);return m?Number(m[1])-1:0;};
 document.querySelector('#prev').addEventListener('click',()=>show(current-1));

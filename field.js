@@ -7,6 +7,7 @@ const Field = (() => {
   canvas.setAttribute('aria-hidden', 'true');
   const ctx = canvas.getContext('2d', { alpha: false });
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HQ = new URLSearchParams(location.search).has('hq'); // ponytail: полный размер поля — только для скриншотов обложки
 
   // Improved Perlin noise 3D
   const perm = new Uint8Array(512);
@@ -44,7 +45,7 @@ const Field = (() => {
   function resize() {
     const r = canvas.getBoundingClientRect();
     if (!r.width) return;
-    const res = r.width < 800 ? 1.25 : Math.min(.75, 1280 / r.width);
+    const res = r.width < 800 ? 1.25 : HQ ? 1 : Math.min(.75, 1280 / r.width);
     const w = Math.max(160, Math.round(r.width * res)), h = Math.max(90, Math.round(r.height * res));
     if (w === W && h === H) return;
     W = canvas.width = w; H = canvas.height = h;
@@ -52,7 +53,7 @@ const Field = (() => {
     fx = new Float32Array(GW * GH); fy = new Float32Array(GW * GH); nv = new Float32Array(GW * GH);
     img = ctx.createImageData(W, H); buf = new Uint32Array(img.data.buffer);
     lum = new Float32Array(W * H); acc = new Float32Array(W * H);
-    N = Math.round(W * H / 13);
+    N = Math.round(W * H / (HQ ? 6 : 13));
     px = new Float32Array(N); py = new Float32Array(N); ix = new Float32Array(N); iy = new Float32Array(N);
     heat = new Float32Array(N); life = new Float32Array(N);
     for (let k = 0; k < N; k++) spawn(k, true);

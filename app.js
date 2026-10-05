@@ -118,7 +118,10 @@ deck.addEventListener('click',e=>{
   if(answer){sections[current].querySelectorAll('[data-answer]').forEach(b=>b.setAttribute('aria-pressed',String(b===answer)));document.querySelector('#poll-feedback').textContent=['Начнём с небольшой задачи и понятного результата.','Посмотрим, чем можно управлять и что выбирать самому.','Иногда так и есть. Сравним способы на реальных задачах.','Разберём варианты работы в привычном софте.','Тогда ищите в показах новые способы для своей практики.'][Number(answer.dataset.answer)];Field.pulseAt(e.clientX,e.clientY,7);}
 });
 function fillNotes(){const s=SLIDES[current];document.querySelector('#notes-content').innerHTML=`<h3>${s.title.replace(/<br>/g,' ')}</h3><p>${s.notes}</p><small>Слайд ${current+1} / ${SLIDES.length} · ${s.speaker}<br>Текст черновика и позиции, не закреплённые автором, доступны для правок.</small>`;}
-function openNotes(){fillNotes();document.querySelector('#notes').showModal();}
+// Заметки спикера видны только по ссылке с ?presenter — зрителям кнопка не показывается
+const presenter=new URLSearchParams(location.search).has('presenter');
+document.querySelector('#notes-open').hidden=!presenter;
+function openNotes(){if(!presenter)return;fillNotes();document.querySelector('#notes').showModal();}
 document.querySelector('#notes-open').addEventListener('click',openNotes);
 document.querySelector('#overview-open').addEventListener('click',()=>{const list=document.querySelector('#overview-list');list.replaceChildren();SLIDES.forEach((s,i)=>{const b=document.createElement('button');b.className=i===current?'current':'';b.innerHTML=`<span>${String(i+1).padStart(2,'0')}</span><span><small>${s.block}${s.status?' / '+s.status:''}</small>${s.title.replace(/<br>/g,' ')}</span>`;b.addEventListener('click',()=>{show(i);document.querySelector('#overview').close();});list.append(b);});document.querySelector('#overview').showModal();});
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.close).close()));

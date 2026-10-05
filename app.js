@@ -9,8 +9,8 @@ const playIcon = '<svg viewBox="0 0 24 24"><path d="m9 5 11 7-11 7z"/></svg>';
 // Тема живого фона для каждого типа слайда
 const THEME = {cover:'dark', chapter:'dark', statement:'dark', video:'video'};
 const themeOf = s => THEME[s.type] || 'light';
-const REVEAL = '.cover-inner>*,.chapter-inner>*,.statement-inner>*,.video-heading,.video-frame,.embed-wrap,.speakers-map>:not(.sp-arrows),.poll-layout>div>*,.poll-options>button,.task-grid>div,.center-title,.bottom-thought,.qr-layout>div>*,.qr-card,.web-intro>*,.closing-layout>h2,.closing-steps>div,.placeholder-layout>div>*,.placeholder-canvas';
-const TILT = '.task-grid>div,.qr-card,.sp-photo,.closing-steps>div,.placeholder-canvas';
+const REVEAL = '.cover-inner>*,.chapter-inner>*,.statement-inner>*,.video-heading,.video-frame,.embed-wrap,.speakers-map>:not(.sp-arrows),.ind-text>*,.ind-bento>*,.ind-probes>*,.ind-arrow,.ind-final,.ind-quote,.mini-qr,.poll-layout>div>*,.poll-options>button,.task-grid>div,.center-title,.bottom-thought,.qr-layout>div>*,.qr-card,.web-intro>*,.closing-layout>h2,.closing-steps>div,.placeholder-layout>div>*,.placeholder-canvas';
+const TILT = '.task-grid>div,.qr-card,.sp-photo,.ind-bento>*,.ind-final,.closing-steps>div,.placeholder-canvas';
 function slideContent(s) {
   if (s.html) return s.html;
   if (s.type === 'chapter') return `<div class="chapter-inner"><span class="chapter-number">${s.block.slice(0,2)}</span><h2 data-scramble>${s.title}</h2><p>${s.subtitle}</p></div>`;

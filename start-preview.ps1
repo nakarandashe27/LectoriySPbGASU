@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
-$previewPort = 4173
+$previewPort = 4174
+$env:PORT = $previewPort
 $previewListening = netstat -ano -p tcp | Select-String "127\.0\.0\.1:$previewPort\s+0\.0\.0\.0:0\s+LISTENING"
 if ($previewListening) {
     Write-Output "Preview already running: http://localhost:$previewPort"

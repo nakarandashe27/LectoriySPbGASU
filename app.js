@@ -2,7 +2,7 @@ const deck = document.querySelector('#deck');
 let current = 0;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mark = (cls='') => `<svg class="mark ${cls}" viewBox="0 0 75 75" aria-hidden="true"><path d="M0 18.75C0 8.39 8.39 0 18.75 0H56.25V18.75H0Z"/><path class="fold" d="M56.25 0 75 18.75H56.25Z"/><path d="M56.25 18.75H75V56.25C75 66.61 66.61 75 56.25 75Z"/><path d="M0 53.12C0 41.04 9.79 31.25 21.88 31.25 33.96 31.25 43.75 41.04 43.75 53.12V75H21.88C9.79 75 0 65.21 0 53.12Z"/></svg>`;
-const header = () => `<header class="slide-header"><span>Лекторий / СПбГАСУ</span><span class="brand">${mark()}арт.бродский</span></header>`;
+const header = () => `<header class="slide-header"><span>Кейсы / Внутренний показ</span><span class="brand">${mark()}арт.бродский</span></header>`;
 const footer = s => `<footer class="slide-footer"><span>${s.block}</span><span>${s.speaker}</span></footer>`;
 const AR = {rhino:'16/10'}; // пропорции роликов, остальные 16:9
 const playIcon = '<svg viewBox="0 0 24 24"><path d="m9 5 11 7-11 7z"/></svg>';

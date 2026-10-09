@@ -24,7 +24,7 @@ const video = (id, title, caption, notes, block, speaker='Ярослав') => ({
 const chapter = (block, title, subtitle, speaker) => ({type:'chapter', block, title, subtitle, speaker, notes:'Обложка раздела. Формулировка заголовка — редакторский вариант для черновика.'});
 const placeholder = (block,title,subtitle,speaker,notes) => ({type:'placeholder', block,title,subtitle,speaker,notes,status:'Материал ожидается'});
 
-const SLIDES = [
+const LECTURE_SLIDES = [
   {type:'cover',block:'01 / Начало',title:'ИИ, сделай красиво',speaker:'Ярослав + Наталия',html:`<div class="cover-inner"><svg class="mark grad cover-mark" viewBox="0 0 75 75" aria-hidden="true"><path d="M0 18.75C0 8.39 8.39 0 18.75 0H56.25V18.75H0Z"/><path class="fold" d="M56.25 0 75 18.75H56.25Z"/><path d="M56.25 18.75H75V56.25C75 66.61 66.61 75 56.25 75Z"/><path d="M0 53.12C0 41.04 9.79 31.25 21.88 31.25 33.96 31.25 43.75 41.04 43.75 53.12V75H21.88C9.79 75 0 65.21 0 53.12Z"/></svg><p class="cover-event">ЛЕКТОРИЙ / АРХНЕДЕЛЯ</p><h1>ИИ, СДЕЛАЙ<br>КРАСИВО</h1><p class="cover-subtitle">Новые инструменты в руках архитектора</p><div class="cover-speakers"><span>Ярослав Уваровский</span><span>Наталия Саркисова</span></div><button class="pill light" data-next>Начнём с вашей практики ${arrow}</button></div><div class="cover-meta"><span>05.10 / 18:30</span><span>СПбГАСУ / 632А</span></div>`,notes:'Тема, спикеры, дата и место подтверждены. Подзаголовок и обложка — предложение для черновика. PDF использован как визуальный ориентир, а не источник программы и дат интенсива.'},
   {type:'content',block:'01 / Начало',title:'Спикеры',speaker:'Ярослав + Наталия',html:`<div class="speakers-map">
 <svg class="sp-lines" viewBox="0 0 100 56.25" aria-hidden="true"><path pathLength="1" d="M11.8 11.6V17.4M11.8 24.6V35.4"/><path pathLength="1" d="M18.8 21H21.5M55.5 21H86.3Q88.3 21 88.3 23V29.5"/><path pathLength="1" d="M18.8 39H21.5M55.5 39H63"/></svg>
@@ -67,3 +67,29 @@ const SLIDES = [
   {type:'content',block:'06 / Завершение',title:'Продолжим разговор',speaker:'Ярослав + Наталия',html:`<h2 class="center-title">ОСТАЁМСЯ НА СВЯЗИ</h2><div class="channel-grid">${qrCard('yaroslav.png','https://t.me/na_karandashe27','Ярослав Уваровский','Тесты, наблюдения и инструменты')}${qrCard('natalia.png','https://t.me/postcardby','Наталия Саркисова','Канал Наталии')}${qrCard('school.png','https://t.me/artbrodsky','Арт.Бродский','Канал школы')}</div>`,notes:'Канал Наталии передан автором напрямую. Адреса Ярослава и школы взяты из ранее переданных материалов. QR создаются на эти точные ссылки. Порядок трёх карточек — редакторский вариант.'},
   {type:'cover',block:'06 / Завершение',title:'Интенсив Rhino + Grasshopper',speaker:'Ярослав + Наталия',html:`<div class="cover-inner finale intensive-layout"><div class="intensive-copy"><p class="cover-event">ПРОДОЛЖИМ НА ИНТЕНСИВЕ АРТ.БРОДСКИЙ</p><h2>RHINO +<br>GRASSHOPPER</h2><p class="cover-subtitle">От первых проб — к работе со своими задачами</p>${link(URLS.intensive,'Записаться на интенсив','pill light')}</div><a class="intensive-qr" href="${URLS.intensive}" target="_blank" rel="noopener noreferrer"><img src="assets/qr/intensive.png" alt="QR-код формы записи на интенсив Rhino + Grasshopper"><strong>Запись на интенсив</strong><span>Наведите камеру телефона</span></a></div>`,notes:'Форма записи передана автором 05.10.2026: https://forms.yandex.ru/u/6abfa1a884227c8d53a4ab7e. QR и кнопка ведут на этот точный адрес. Точные программа, дата старта и цена пока не переданы. Старые даты и обещания из стилевого PDF не переносим. Финальная формулировка — предложение.'},
 ];
+
+// Версия для сотрудников: исходные слайды сохранены, но не попадают в показ и оглавление.
+const COMPANY_HIDDEN_SLIDES = new Set([
+  'Спикеры',
+  'Что мешает использовать ИИ?',
+  'SINTEZ В PHOTOSHOP',
+  'Попробовать SINTEZ',
+  'Арт.Бродский / 3D-логотип',
+  'Продолжим разговор',
+  'Интенсив Rhino + Grasshopper',
+]);
+const SLIDES = LECTURE_SLIDES.filter(s => !COMPANY_HIDDEN_SLIDES.has(s.title)).map(s => {
+  if (s.title === 'ИИ, сделай красиво') return {...s,
+    html: s.html
+      .replace('ЛЕКТОРИЙ / АРХНЕДЕЛЯ', 'КЕЙСЫ / ВНУТРЕННИЙ ПОКАЗ')
+      .replace('Начнём с вашей практики', 'Посмотреть кейсы')
+      .replace('<span>05.10 / 18:30</span><span>СПбГАСУ / 632А</span>', '<span>Для сотрудников компании</span><span>ИИ в архитектурной практике</span>'),
+    notes: 'Версия кейсов для сотрудников компании. Материалы выступления сохранены; дата и аудитория Лектория убраны с обложки.'
+  };
+  if (s.title === 'КРАСИВО.<br>ПО ВАШИМ ПРАВИЛАМ.') return {...s, subtitle: 'Контролируемая визуализация / ComfyUI'};
+  if (s.title === 'Ваши вопросы') return {...s,
+    html: s.html.replace(/<a class="ask-card"[\s\S]*?<\/a>/, ''),
+    notes: 'Вопросы и обсуждение кейсов внутри компании. Telegram-карточка скрыта по просьбе автора.'
+  };
+  return s;
+});
